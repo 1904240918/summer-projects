@@ -1,0 +1,26 @@
+给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。
+
+ 
+
+说明:
+
+初始化 nums1 和 nums2 的元素数量分别为 m 和 n 。
+你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。
+
+void merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n){
+    int i,j,temp,min;
+    for(i=m,j=0;i<m+n;i++,j++){
+        nums1[i]=nums2[j];
+    }
+    for(i=0;i<m+n-1;i++){
+        min=i;
+        for(j=i+1;j<m+n;j++)
+            if(nums1[min]>nums1[j])
+                min=j;
+        temp=nums1[i];
+        nums1[i]=nums1[min];
+        nums1[min]=temp;
+    }
+}
+
+思路：先将两个数组合并到一个数组中，再将这个合并后的数组进行选择排序
