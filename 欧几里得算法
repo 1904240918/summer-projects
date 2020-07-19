@@ -1,0 +1,18 @@
+/*欧几里得算法*/
+#include<stdio.h>
+int md(int a,int b);
+main()
+{
+	int a,b;
+
+	scanf("%d%d",&a,&b);
+	printf("%d\n",md(a,b));
+
+}
+int md(int a,int b)//递归
+{
+	if(b==0)
+		return a;
+	else
+		md(b,a%b);
+}
