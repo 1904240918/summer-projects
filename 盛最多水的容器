@@ -1,0 +1,23 @@
+题目：
+给你 n 个非负整数 a1，a2，...，an，每个数代表坐标中的一个点 (i, ai) 。在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0)。找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
+
+int maxArea(int* height, int heightSize){
+    int i,k,m,max,wide,h;
+    wide=heightSize-1;//容器的宽
+    k=0,m=heightSize-1;//k为左端的高，m为右端的高
+
+    h=(height[k]>=height[m])?height[m]:height[k];//取两端矮的一端为高
+    max=wide*h;
+    while(k<m){
+        wide--;
+        if(height[k]>=height[m])//如果左端高则右端往左移一格，右端高左端往左移一格
+            m--;
+        else
+            k++;
+        h=(height[k]>=height[m])?height[m]:height[k];
+        max=(max>=(h*wide))?max:(wide*h);//取面积更大的
+    }
+    
+    return max;
+
+}
