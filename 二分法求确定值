@@ -1,0 +1,18 @@
+#include<stdio.h>
+int search(int *list,int n,int x)
+{
+	int k,m,mid;
+	k=0,m=n-1;
+
+	while(k<=m){
+		mid=(k+m)/2;
+		if(list[mid]==x)
+			return mid;
+		if(list[mid]<x)
+			k=mid+1;
+		else
+			m=mid-1;
+	}
+
+	return -1;
+}
