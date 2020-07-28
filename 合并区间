@@ -1,0 +1,35 @@
+题目：
+给出一个区间的集合，请合并所有重叠的区间。
+输入: [[1,3],[2,6],[8,10],[15,18]]
+输出: [[1,6],[8,10],[15,18]]
+解释: 区间 [1,3] 和 [2,6] 重叠, 将它们合并为 [1,6].
+
+ int compare(int **a,int **b){
+    return a[0][0]-b[0][0];
+}
+int** merge(int** intervals, int intervalsSize, int* intervalsColSize, int* returnSize, int** returnColumnSizes){
+    *returnSize=0;
+    if(intervalsSize==0)
+        return 0;
+    qsort(intervals,intervalsSize,sizeof(intervals[0]),compare);//将给的区间按照左端点从小到大排序
+    for(int i=0;i<intervalsSize-1;i++){
+        if(intervals[i][1]>=intervals[i+1][0])/*若前一个区间的右端点大于等于后一个区间的左端点则将两个区间合并*/{
+            intervals[i+1][0]=intervals[i][0];//用后一个区间来保存新的区间
+            int biger=intervals[i][1]>=intervals[i+1][1]?intervals[i][1]:intervals[i+1][1];
+            intervals[i+1][1]=biger;
+            intervals[i][0]=0;//将前一个区间舍弃，将左端点赋值为0，右端点赋值为-1
+            intervals[i][1]=-1;
+        }
+    }
+    int **result=(int **)malloc(intervalsSize*sizeof(int *));
+    for(int i=0;i<intervalsSize;i++){
+        if(intervals[i][0]==0&&intervals[i][1]==-1)
+            continue;
+        result[*returnSize]=(int *)malloc(2*sizeof(int));
+        (*returnColumnSizes)[*returnSize]=2;
+        result[*returnSize][0]=intervals[i][0];
+        result[*returnSize][1]=intervals[i][1];
+        (*returnSize)++;
+    }
+    return result;
+}
