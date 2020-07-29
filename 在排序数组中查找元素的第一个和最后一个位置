@@ -5,3 +5,43 @@
 
 如果数组中不存在目标值，返回 [-1, -1]。
 
+int* searchRange(int* nums, int numsSize, int target, int* returnSize){
+    int *p=(int *)malloc(2*sizeof(int));
+    int left=0,right=numsSize-1,mid,flag=0;
+    p[0]=-1,p[1]=-1;
+    *returnSize=2;
+
+    while(left<=right){//判断目标值是否在数组中
+        mid=(left+right)/2;
+        if(nums[mid]==target)
+            flag=1;
+        if(nums[mid]>target)
+            right=mid-1;
+        else
+            left=mid+1;
+    }
+
+    left=0,right=numsSize-1;
+    if(flag){
+        while(left<right){//找到第一个小于等于目标值元素的位置
+            mid=(left+right)/2;
+            if(nums[mid]>=target)
+                right=mid;
+            else
+                left=mid+1;
+        }
+        p[0]=left;
+
+        left=0,right=numsSize-1;
+        while(left<right){//找到第一个大于等于目标元素的位置
+            mid=(left+right+1)/2;
+            if(nums[mid]<=target)
+                left=mid;
+            else
+                right=mid-1;
+        }
+        p[1]=right;
+
+    }
+    return p;
+}
