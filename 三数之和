@@ -1,3 +1,45 @@
 题目：
 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
 
+int compare(int *a,int *b){
+    return a[0]-b[0];
+}
+int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes)
+{
+    int i=0,a=i+1,b=numsSize-1;
+    (*returnSize)=0;
+
+    int **result=(int **)malloc((numsSize)*(numsSize)*sizeof(int *));//给二维数组分配空间
+    *returnColumnSizes=(int *)malloc((numsSize)*(numsSize)*sizeof(int));
+    
+    qsort(nums,numsSize,sizeof(nums[0]),compare);//将数组从小到大排序
+
+    if(numsSize<3)//判断数组的元素个数，若是小于3个，则直接退出
+        return NULL;
+
+    while((nums[i])<=0&&(i<numsSize-2)){//当循环到大于0的时候停止，此时三数之和一定大于0
+        a=i+1,b=numsSize-1;
+
+        while(a<b){//先固定第一个数，另外两个数用两边夹的方法来确定
+            if(nums[i]+nums[a]+nums[b]==0){
+            result[*returnSize]=(int *)malloc(3*sizeof(int));
+            result[*returnSize][0]=i;
+            result[*returnSize][1]=a;
+            result[*returnSize][2]=b;
+            (*returnColumnSizes)[*returnSize]=3;
+            (*returnSize)++;
+            while(a<b){//去掉重复的数
+                if(nums[a]==nums[a++]);
+                if(nums[b]==nums[b--]);
+            }
+            }
+            else if(nums[i]+nums[a]+nums[b]>0)
+                b--;
+            else
+                a++;
+        }
+        while(i<numsSize-2)
+            if(nums[i]==nums[i++]);
+    }
+    return result;
+}
