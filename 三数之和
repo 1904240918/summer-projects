@@ -28,18 +28,15 @@ int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes
             result[*returnSize][2]=b;
             (*returnColumnSizes)[*returnSize]=3;
             (*returnSize)++;
-            while(a<b){//去掉重复的数
-                if(nums[a]==nums[a++]);
-                if(nums[b]==nums[b--]);
-            }
+            while((nums[a]==nums[a++])&&(a<b));//从前往后去掉重复的数
+            while((nums[b]==nums[b--])&&(a<b));//从后往前去掉重复的数
             }
             else if(nums[i]+nums[a]+nums[b]>0)
                 b--;
             else
                 a++;
         }
-        while(i<numsSize-2)
-            if(nums[i]==nums[i++]);
+        while((nums[i]==nums[i++])&&(i<numsSize-2));
     }
     return result;
 }
