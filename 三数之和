@@ -23,20 +23,20 @@ int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes
         while(a<b){//先固定第一个数，另外两个数用两边夹的方法来确定
             if(nums[i]+nums[a]+nums[b]==0){
             result[*returnSize]=(int *)malloc(3*sizeof(int));
-            result[*returnSize][0]=i;
-            result[*returnSize][1]=a;
-            result[*returnSize][2]=b;
+            result[*returnSize][0]=nums[i];
+            result[*returnSize][1]=nums[a];
+            result[*returnSize][2]=nums[b];
             (*returnColumnSizes)[*returnSize]=3;
             (*returnSize)++;
-            while((nums[a]==nums[a++])&&(a<b));//从前往后去掉重复的数
-            while((nums[b]==nums[b--])&&(a<b));//从后往前去掉重复的数
+            while((nums[a]==nums[++a])&&(a<b));//从前往后去掉重复的数
+            while((nums[b]==nums[--b])&&(a<b));//从后往前去掉重复的数
             }
             else if(nums[i]+nums[a]+nums[b]>0)
                 b--;
             else
                 a++;
         }
-        while((nums[i]==nums[i++])&&(i<numsSize-2));
+        while((nums[i]==nums[++i])&&(i<numsSize-2));
     }
     return result;
 }
