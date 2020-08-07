@@ -9,3 +9,19 @@
 
 输入: 1->1->2->3->3
 输出: 1->2->3
+
+struct ListNode* deleteDuplicates(struct ListNode* head){
+    struct ListNode *t=head;
+    if(head==NULL)
+        return NULL;
+
+    while(t!=NULL&&t->next!=NULL){
+        if(t->val==t->next->val){
+            t->next=t->next->next;        
+        }
+        else
+            t=t->next;
+    }
+
+    return head;
+}
