@@ -1,0 +1,29 @@
+题目：
+删除链表中等于给定值 val 的所有节点。
+
+
+struct ListNode {
+    int val;
+    struct ListNode *next;
+ }
+struct ListNode* removeElements(struct ListNode* head, int val){
+    struct ListNode *before=(struct ListNode *)malloc(sizeof(struct ListNode));//before为哨兵节点
+    before->next=head;
+    struct ListNode *a=before,*b=head;
+
+    if(head==NULL)
+        return NULL;
+    while(b!=NULL){
+        if(b->val==val){
+            b->next=a->next;
+            free(b);      
+        }
+        else
+            a=b;
+        b=b->next;
+    }
+  
+    head=before->next;
+    free(before);
+    return head;
+}
