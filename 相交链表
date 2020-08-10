@@ -1,0 +1,24 @@
+题目：
+编写一个程序，找到两个单链表相交的起始节点。
+
+思路：
+定义两个指针，分别指向两个链表的表头，同时开始向后遍历，遍历结束后则指向另一个链表的表头，直到找到相交的节点
+
+struct ListNode {
+    int val;
+    struct ListNode *next;
+}
+struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *headB) {
+    truct ListNode *pa=headA;
+    struct ListNode *pb=headB;
+
+    if(pa==NULL||pb==NULL)
+        return NULL;
+
+    while(pa!=pb){
+        pa=pa==NULL?headB:pa->next;
+        pb=pb==NULL?headA:pb->next;
+    }
+
+    return pa;
+}
