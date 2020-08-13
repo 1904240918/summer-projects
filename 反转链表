@@ -1,0 +1,27 @@
+题目：
+反转一个单链表。
+
+示例:
+
+输入: 1->2->3->4->5->NULL
+输出: 5->4->3->2->1->NULL
+
+
+struct ListNode {
+    int val;
+    struct ListNode *next;
+ }；
+struct ListNode* reverseList(struct ListNode* head){
+    struct ListNode *old_list=head,*new_list=NULL,*temp;
+    if(old_list==NULL||old_list->next==NULL)
+        return head;
+    while(old_list){
+        temp=old_list->next;//用temp临时保存旧链表当前节点的后一节点的地址
+        old_list->next=new_list;//将新链表拼接到旧链表的后面
+        new_list=old_list;
+        old_list=temp;//更新旧链表
+    }
+
+    return new_list;
+
+}
