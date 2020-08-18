@@ -9,3 +9,51 @@
 
 输入: 1->2->2->1
 输出: true
+
+
+struct ListNode {
+    int val;
+    struct ListNode *next;
+    };
+bool isPalindrome(struct ListNode* head){
+    if(head == NULL) return true;
+    int len = 0;
+    struct ListNode *p = head;
+    while(p){
+        len++;
+        p = p->next;
+    }
+    if(len == 1) return true;
+    if(len == 2){
+        if(head->val == head->next->val) return true;
+        else return false;
+    }
+    if(len == 3){
+        if(head->next->next->val == head ->val) return true;
+        else return false;
+    }
+    int tmp = (len-1)/2, flag = 0;
+    if(len%2 == 1) flag = 1;
+    len = (len+1)/2;
+    p = head;
+    while(len){
+        head = head->next;
+        len--;
+    }
+    struct ListNode *q = p, *r = p->next->next;
+    p = p->next;
+    q->next = NULL;
+    while(tmp){
+        p->next = q;
+        q = p;
+        p = r;
+        r = r->next;
+        tmp--;
+    }
+    if(flag == 1) q = q->next;
+    while(head){
+        if(q->val != head->val) return false;
+        q = q->next, head = head->next;
+    }
+    return true;
+}
