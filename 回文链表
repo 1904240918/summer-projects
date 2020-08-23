@@ -11,49 +11,57 @@
 输出: true
 
 
-struct ListNode {
-    int val;
-    struct ListNode *next;
-    };
 bool isPalindrome(struct ListNode* head){
-    if(head == NULL) return true;
-    int len = 0;
-    struct ListNode *p = head;
-    while(p){
+    struct ListNode *p=head;
+    int len=0;
+    
+    while(p){//遍历链表获得链表的长度
+        p=p->next;
         len++;
-        p = p->next;
     }
-    if(len == 1) return true;
-    if(len == 2){
-        if(head->val == head->next->val) return true;
-        else return false;
+    if(head==NULL)
+        return true;
+    if(len==1)
+        return true;
+    if(len==2){
+        if(head->val==head->next->val)
+            return true;
+        else
+            return false;
     }
-    if(len == 3){
-        if(head->next->next->val == head ->val) return true;
-        else return false;
+    if(len==3){
+        if(head->val==head->next->next->val)
+            return true;
+        else
+            return false;
     }
-    int tmp = (len-1)/2, flag = 0;
-    if(len%2 == 1) flag = 1;
-    len = (len+1)/2;
-    p = head;
+    
+    struct ListNode *t=head;//t为后端链表的表头
+    int n=(len-1)/2,flag=0;//flag用来判断链表的长度是奇数还是偶数
+    if(len%2==1)
+        flag=1;
+    len=(len+1)/2;
     while(len){
-        head = head->next;
+        t=t->next;
         len--;
     }
-    struct ListNode *q = p, *r = p->next->next;
-    p = p->next;
-    q->next = NULL;
-    while(tmp){
-        p->next = q;
-        q = p;
-        p = r;
-        r = r->next;
-        tmp--;
+    struct ListNode *q=head,*r=head->next->next;
+    p=head->next,q->next=NULL;
+    while(n){//将前半段链表反转
+        p->next=q;
+        q=p;
+        p=r;
+        r=r->next;
+        n--;
     }
-    if(flag == 1) q = q->next;
-    while(head){
-        if(q->val != head->val) return false;
-        q = q->next, head = head->next;
+    if(flag==1)
+      q=q->next;
+    while(t){
+        if(q->val!=t->val)
+            return false;
+        q=q->next;
+        t=t->next;
     }
     return true;
+
 }
