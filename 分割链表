@@ -1,0 +1,62 @@
+题目：
+给定一个链表和一个特定值 x，对链表进行分隔，使得所有小于 x 的节点都在大于或等于 x 的节点之前。
+
+你应当保留两个分区中每个节点的初始相对位置。
+
+示例:
+
+输入: head = 1->4->3->2->5->2, x = 3
+输出: 1->2->2->4->3->5
+struct ListNode {
+    int val;
+    struct ListNode *next;
+}；
+
+struct ListNode* partition(struct ListNode* head, int x){
+    if((head==NULL)||(head->next==NULL)) return head;
+    int cnt=0;//用来记录需要挪动的次数
+    struct ListNode *p_tmp=head,*p_last=NULL,*p_exchange=NULL;
+    while(p_tmp->next!=0)
+    {
+        if(p_tmp->val>=x) cnt++;
+        p_tmp=p_tmp->next;
+    }
+    if(p_tmp->val>=x) cnt++;//以上while和if语句计算需要挪动的次数
+    while(head->val>=x)//如果开头的数就需要移动
+    {
+        for(p_last=head;p_last->next!=NULL;p_last=p_last->next);
+        p_exchange=head->next;
+        p_last->next=head;
+        head->next=NULL;
+        head=p_exchange;
+        cnt--;
+        if(cnt==0) return head;
+    }
+    p_tmp=head;
+    while(cnt!=0)
+    {
+        if(p_tmp->next->val>=x)
+        {
+            if(p_tmp->next->next!=NULL)//把这个数字移动到链表结尾
+            {
+                for(p_last=head;p_last->next!=NULL;p_last=p_last->next);
+                p_exchange=p_tmp->next;
+                p_tmp->next=p_tmp->next->next;
+                p_last->next=p_exchange;
+                p_exchange->next=NULL;
+                cnt--;
+                if(cnt==0) return head;
+            }
+            else//如果需要挪动的数字在链表最后一个位置，不需要挪动，直接返回head
+            {
+                cnt--;
+                if(cnt==0) return head;
+            }
+        }
+        else//当前数字小于x
+        {
+            p_tmp=p_tmp->next;
+        }
+    }
+    return head;
+}
