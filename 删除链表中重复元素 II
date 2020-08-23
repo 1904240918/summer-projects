@@ -1,0 +1,56 @@
+题目：
+给定一个排序链表，删除所有含有重复数字的节点，只保留原始链表中 没有重复出现 的数字。
+
+示例 1:
+
+输入: 1->2->3->3->4->4->5
+输出: 1->2->5
+示例 2:
+
+输入: 1->1->1->2->3
+输出: 2->3
+
+struct ListNode {
+    int val;
+    struct ListNode *next;
+ };
+ 
+struct ListNode* deleteDuplicates(struct ListNode* head){
+
+    if((head == NULL)||(head->next == NULL)) {
+        return head;
+    }
+
+    
+    struct ListNode* fast = head->next;
+    struct ListNode* fastpre = head;//fast节点的前一个节点，fast的前后共3个节点均不同则认为fast节点无重复
+
+    struct ListNode* listhead = (struct ListNode*)malloc(sizeof(struct ListNode));//申请一个地址，用于新的链表头
+    struct ListNode* slow = listhead;
+
+    //先判断首节点
+    if(fastpre->val != fast->val) {
+        slow->next = fastpre;
+        slow = slow->next;
+    }
+
+    //判断中间的节点
+    for( ; fast->next != NULL; fast = fast->next) {
+        if((fastpre->val != fast->val)&&(fast->val != fast->next->val)) {
+            slow->next = fast;
+            slow = slow->next;
+        }
+        fastpre = fast;
+    }
+    
+    //判断尾节点
+    if(fastpre->val != fast->val) {
+        slow->next = fast;
+        slow = slow->next;
+    }
+    slow->next = NULL;
+    slow = listhead->next;
+    free(listhead);
+    return slow;
+
+}
