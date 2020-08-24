@@ -1,0 +1,66 @@
+题目：
+给你两个 非空 链表来代表两个非负整数。数字最高位位于链表开始位置。它们的每个节点只存储一位数字。将这两数相加会返回一个新的链表。
+
+你可以假设除了数字 0 之外，这两个数字都不会以零开头。
+
+ 
+
+进阶：
+
+如果输入链表不能修改该如何处理？换句话说，你不能对列表中的节点进行翻转。
+
+ 
+
+示例：
+
+输入：(7 -> 2 -> 4 -> 3) + (5 -> 6 -> 4)
+输出：7 -> 8 -> 0 -> 7
+
+struct ListNode* reverseList(struct ListNode* head) {
+    if( !head || !head->next ) return head;
+    struct ListNode *cur = head->next, *tempHead = head;
+    while(cur) {
+        struct ListNode *p  = cur->next;
+        cur->next = tempHead;
+        head->next = p;
+        tempHead = cur;
+        cur = head->next;
+    }
+    return tempHead;
+}
+
+struct ListNode {
+    int val;
+    struct ListNode *next;
+    };
+    
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2){
+    struct ListNode *first = reverseList(l1),*second = reverseList(l2);
+    struct ListNode *head = (struct ListNode*)malloc(sizeof(struct ListNode));
+    struct ListNode *newHead = head;
+    int num = 0 , flag = 0;
+    while( first || second ) {
+        head->next = (struct ListNode*)malloc(sizeof(struct ListNode));
+        head = head->next;
+        if(first && second)
+        num = first->val + second->val + flag;
+        flag = num / 10;
+        num %= 10;
+        head->val = num;
+        if(first)
+        first = first->next;
+        if(second)
+        second = second->next;
+        if(first && !second)
+        num = first->val + flag;
+        if(second && !first)
+        num = second->val + flag;
+    }
+    head->next = first ? first:second;
+    if( !head->next && flag != 0) {
+        head->next = (struct ListNode*)malloc(sizeof(struct ListNode));
+        head->next->next = NULL;
+        head->next->val = flag;
+    }
+    return reverseList(newHead->next);
+}
